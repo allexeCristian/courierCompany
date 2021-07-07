@@ -81,6 +81,11 @@ public class App extends javax.swing.JFrame {
         });
 
         jButton3.setText("Sterge");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -154,6 +159,11 @@ public class App extends javax.swing.JFrame {
         });
 
         jButton6.setText("Sterge");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -242,6 +252,23 @@ public class App extends javax.swing.JFrame {
         AppAdaugaAngajati a = new AppAdaugaAngajati(this);
         a.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here: StergeParcAuto
+        int row = jTable2.getSelectedRow();        
+        int id = Integer.parseInt(jTable2.getModel().getValueAt(row, 0).toString());
+        parcAutoRepo.deleteParcAuto(id);
+        selectParcAuto();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here: StergeAngajati
+        
+        int row = jTable1.getSelectedRow();        
+        int id = Integer.parseInt(jTable1.getModel().getValueAt(row, 0).toString());
+        angajatRepo.deleteAngajat(id);
+        selectAngajati();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     public void insertAngajat(Angajat a){
         // insert in db 

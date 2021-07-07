@@ -40,4 +40,9 @@ public class AngajatiRepository {
         String query = "insert into curier.angajati(nume, prenume, rol, adresa, nrContact, idAuto) values (\""+a.nume+"\", \""+a.prenume+"\", \""+a.rol+"\", \""+a.adresa+"\", \""+a.nrContact+"\", NULL)";
         database.execute(query);
     }
+    
+    public void deleteAngajat (int id) {
+        String query = "DELETE FROM curier.angajati WHERE marca="+id+";";
+        database.execute(query);
+    }
 }

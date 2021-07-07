@@ -44,4 +44,9 @@ public class ParcAutoRepository {
         String query = "insert into curier.parcauto(marca, model) values (\""+p.marca+"\", \""+p.model+"\")";
         database.execute(query);
     }
+    
+    public void deleteParcAuto (int id) {
+        String query = "DELETE FROM curier.parcauto WHERE idAuto="+id+";";
+        database.execute(query);
+    }
 }

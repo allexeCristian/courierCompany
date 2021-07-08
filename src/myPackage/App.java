@@ -3,21 +3,39 @@ package myPackage;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import myPackage.Models.Angajat;
+import myPackage.Models.Clienti;
 import myPackage.Models.ParcAuto;
+import myPackage.Models.Service;
+import myPackage.Models.User;
 import myPackage.Repositories.AngajatiRepository;
+import myPackage.Repositories.ClientiRepository;
 import myPackage.Repositories.ParcAutoRepository;
+import myPackage.Repositories.ServiceRepository;
 
 public class App extends javax.swing.JFrame {
     
    AngajatiRepository angajatRepo;
    ParcAutoRepository parcAutoRepo;
+   ServiceRepository serviceRepo;
+   ClientiRepository clientiRepo;
+   List<ParcAuto> parcAuto;
        
-    public App() {
+    public App(User user) {
         initComponents();
         parcAutoRepo = new ParcAutoRepository();
         angajatRepo = new AngajatiRepository();
+        serviceRepo = new ServiceRepository();  
+        clientiRepo = new ClientiRepository();
         selectAngajati();
         selectParcAuto();
+        selectService();
+        selectClienti();
+        jLabel1.setText(user.user);
+        if ("Sofer".equals(user.rol)){
+            jTabbedPane1.remove(jPanel1);
+            jTabbedPane1.remove(jPanel2);
+            jTabbedPane1.remove(jPanel3);                   
+        }
     }
 
     private void selectAngajati(){
@@ -32,15 +50,38 @@ public class App extends javax.swing.JFrame {
     }
     
     private void selectParcAuto(){
-        List<ParcAuto> parcAuto = parcAutoRepo.getParcAuto();
+        parcAuto = parcAutoRepo.getParcAuto();
         
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
         for(ParcAuto p : parcAuto ){
-            Object[] row = {p.idAuto, p.marca, p.model};
+            Object[] row = {p.idAuto, p.marca, p.model, p.nrInmatriculare};
             model.addRow(row);
         }
     }
+    
+    private void selectService(){
+        List<Service> service = serviceRepo.getService();
+        
+        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+        model.setRowCount(0);
+        for(Service s : service ){
+            Object[] row = { s.idAuto, s.data, s.km, s.mentiuni };
+            model.addRow(row);
+        }
+    }
+    
+    private void selectClienti(){
+        List<Clienti> clienti = clientiRepo.getClienti();
+        
+        DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
+        model.setRowCount(0);
+        for(Clienti c : clienti ){
+            Object[] row = { c.idClienti, c.nume, c.prenume, c.adresa, c.nrContact };
+            model.addRow(row);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,7 +91,7 @@ public class App extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -63,6 +104,20 @@ public class App extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        jButton13 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,7 +147,7 @@ public class App extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Marca", "Nume", "Model", "Rol", "Adresa", "Nr.Contact", "ID.AUTO"
+                "Marca", "Nume", "Prenume", "Rol", "Adresa", "Nr.Contact", "ID.AUTO"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -110,6 +165,7 @@ public class App extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(2).setResizable(false);
             jTable1.getColumnModel().getColumn(3).setResizable(false);
             jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
             jTable1.getColumnModel().getColumn(6).setResizable(false);
         }
 
@@ -132,7 +188,7 @@ public class App extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(146, Short.MAX_VALUE)
+                .addContainerGap(110, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -142,7 +198,7 @@ public class App extends javax.swing.JFrame {
                 .addGap(19, 19, 19))
         );
 
-        jTabbedPane2.addTab("Angajati", jPanel1);
+        jTabbedPane1.addTab("Angajati", jPanel1);
 
         jButton4.setText("Adauga");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -170,11 +226,11 @@ public class App extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID.Auto", "Marca", "Model"
+                "ID.Auto", "Marca", "Model", "NR.Inmatriculare"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -186,6 +242,7 @@ public class App extends javax.swing.JFrame {
             jTable2.getColumnModel().getColumn(0).setResizable(false);
             jTable2.getColumnModel().getColumn(1).setResizable(false);
             jTable2.getColumnModel().getColumn(2).setResizable(false);
+            jTable2.getColumnModel().getColumn(3).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -207,7 +264,7 @@ public class App extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(146, Short.MAX_VALUE)
+                .addContainerGap(110, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -217,21 +274,201 @@ public class App extends javax.swing.JFrame {
                 .addGap(19, 19, 19))
         );
 
-        jTabbedPane2.addTab("Parc Auto", jPanel3);
+        jTabbedPane1.addTab("Parc Auto", jPanel3);
+
+        jButton7.setText("Adauga");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("Modifica");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText("Sterge");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID.Auto", "Data", "KM", "Mentiuni"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(jTable3);
+        if (jTable3.getColumnModel().getColumnCount() > 0) {
+            jTable3.getColumnModel().getColumn(0).setResizable(false);
+            jTable3.getColumnModel().getColumn(1).setResizable(false);
+            jTable3.getColumnModel().getColumn(2).setResizable(false);
+            jTable3.getColumnModel().getColumn(3).setResizable(false);
+        }
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 756, Short.MAX_VALUE)
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(110, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton7)
+                    .addComponent(jButton8)
+                    .addComponent(jButton9))
+                .addGap(19, 19, 19))
+        );
+
+        jTabbedPane1.addTab("Service", jPanel4);
+
+        jButton10.setText("Adauga");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jButton11.setText("Modifica");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
+        jButton12.setText("Sterge");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "idClienti", "Nume", "Model", "Adresa", "Nr.Contact"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(jTable4);
+        if (jTable4.getColumnModel().getColumnCount() > 0) {
+            jTable4.getColumnModel().getColumn(0).setResizable(false);
+            jTable4.getColumnModel().getColumn(1).setResizable(false);
+            jTable4.getColumnModel().getColumn(2).setResizable(false);
+            jTable4.getColumnModel().getColumn(3).setResizable(false);
+            jTable4.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1121, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(110, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton10)
+                    .addComponent(jButton11)
+                    .addComponent(jButton12))
+                .addGap(19, 19, 19))
+        );
+
+        jTabbedPane1.addTab("Clienti", jPanel2);
+
+        jButton13.setText("Logout");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1150, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(94, 94, 94)
+                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 13, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton13)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here: StergeParcAuto
+        int row = jTable2.getSelectedRow();
+        int id = Integer.parseInt(jTable2.getModel().getValueAt(row, 0).toString());
+        parcAutoRepo.deleteParcAuto(id);
+        selectParcAuto();
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
@@ -243,32 +480,66 @@ public class App extends javax.swing.JFrame {
         p.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here: StergeAngajati
+
+        int row = jTable1.getSelectedRow();
+        int id = Integer.parseInt(jTable1.getModel().getValueAt(row, 0).toString());
+        angajatRepo.deleteAngajat(id);
+        selectAngajati();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        AppAdaugaAngajati a = new AppAdaugaAngajati(this);
+        AppAdaugaAngajati a = new AppAdaugaAngajati(this, this.parcAuto);
         a.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here: StergeParcAuto
-        int row = jTable2.getSelectedRow();        
-        int id = Integer.parseInt(jTable2.getModel().getValueAt(row, 0).toString());
-        parcAutoRepo.deleteParcAuto(id);
-        selectParcAuto();
-    }//GEN-LAST:event_jButton6ActionPerformed
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here: AdaugaService
+        AppAdaugaService s = new AppAdaugaService(this);
+        s.setVisible(true);
+    }//GEN-LAST:event_jButton7ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here: StergeAngajati
-        
-        int row = jTable1.getSelectedRow();        
-        int id = Integer.parseInt(jTable1.getModel().getValueAt(row, 0).toString());
-        angajatRepo.deleteAngajat(id);
-        selectAngajati();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here: StergeService
+        int row = jTable3.getSelectedRow();
+        int id = Integer.parseInt(jTable3.getModel().getValueAt(row, 0).toString());
+        serviceRepo.deleteService(id);
+        selectService();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here: AdaugaClienti
+        AppAdaugaClienti a = new AppAdaugaClienti(this);
+        a.setVisible(true);
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here: StergeClienti
+        int row = jTable4.getSelectedRow();
+        int id = Integer.parseInt(jTable4.getModel().getValueAt(row, 0).toString());
+        clientiRepo.deleteClienti(id);
+        selectClienti();
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here: Logout
+        new AppLogin().setVisible(true);
+        this.dispose();        
+    }//GEN-LAST:event_jButton13ActionPerformed
 
     public void insertAngajat(Angajat a){
         // insert in db 
@@ -282,6 +553,20 @@ public class App extends javax.swing.JFrame {
         parcAutoRepo.insertParcAuto(p);
         //insert in table
         selectParcAuto();
+    }
+    
+    public void insertService(Service s){
+        // insert in db 
+        serviceRepo.insertService(s);
+        //insert in table
+        selectService();
+    }
+    
+    public void insertClienti(Clienti c){
+        // insert in db 
+        clientiRepo.insertClienti(c);
+        //insert in table
+        selectClienti();
     }
     
     /**
@@ -314,26 +599,41 @@ public class App extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new App().setVisible(true);
+                new App(new User("Bulangiu","Manager")).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
     // End of variables declaration//GEN-END:variables
 
+    
 
 }

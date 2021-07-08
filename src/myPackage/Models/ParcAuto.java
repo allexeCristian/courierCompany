@@ -10,10 +10,18 @@ public class ParcAuto {
     public int idAuto;
     public String marca;
     public String model;
+    public String nrInmatriculare;
     
-    public ParcAuto (int idAuto, String marca, String model){
+    public ParcAuto (int idAuto, String marca, String model, String nrInmatriculare){
         this.idAuto = idAuto;
         this.marca = marca;
         this.model = model;
+        this.nrInmatriculare = nrInmatriculare;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return nrInmatriculare;
     }
 }

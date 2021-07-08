@@ -5,7 +5,10 @@
  */
 package myPackage;
 
+import java.util.ArrayList;
+import java.util.List;
 import myPackage.Models.Angajat;
+import myPackage.Models.ParcAuto;
 
 /**
  *
@@ -14,14 +17,22 @@ import myPackage.Models.Angajat;
 public class AppAdaugaAngajati extends javax.swing.JFrame {
 
     private final App parent;
+    List<ParcAuto> parcAuto;
 
     /**
      * Creates new form AppAdaugaAngajati
      * @param parent
      */
-    public AppAdaugaAngajati(App parent) {
+    public AppAdaugaAngajati(App parent, List<ParcAuto> parcAuto) {
         initComponents();
         this.parent = parent;
+        this.parcAuto = parcAuto;
+        
+        jComboBox1.addItem("");
+        for(ParcAuto p: parcAuto)
+            jComboBox1.addItem(p.nrInmatriculare);
+        
+      
     }
 
     /**
@@ -46,7 +57,7 @@ public class AppAdaugaAngajati extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -82,6 +93,12 @@ public class AppAdaugaAngajati extends javax.swing.JFrame {
 
         jLabel6.setText("ID.Auto");
 
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -97,20 +114,19 @@ public class AppAdaugaAngajati extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField3)
-                            .addComponent(jTextField4)
-                            .addComponent(jTextField5)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 156, Short.MAX_VALUE)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField1)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addGap(75, 75, 75)
-                        .addComponent(jButton2)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(31, 31, 31))
+                        .addComponent(jButton2)))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,8 +154,8 @@ public class AppAdaugaAngajati extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -161,7 +177,15 @@ public class AppAdaugaAngajati extends javax.swing.JFrame {
         String rol = jTextField3.getText();
         String adresa = jTextField4.getText();
         String nrContact = jTextField5.getText();
-        Integer idAuto = Integer.parseInt(jTextField6.getText());     
+        //Integer idAuto = Integer.parseInt(jTextField6.getText());     
+        String selectedNrInmatriculare = (String)jComboBox1.getSelectedItem();
+        int idAuto = 0;
+        for(ParcAuto p: this.parcAuto){
+            if(p.nrInmatriculare == selectedNrInmatriculare){
+                idAuto = p.idAuto;
+                break;
+            }
+        }
         Angajat a = new Angajat(0, nume, prenume, rol, adresa, nrContact, idAuto);
         this.parent.insertAngajat(a);
         this.dispose();
@@ -171,6 +195,10 @@ public class AppAdaugaAngajati extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -202,7 +230,7 @@ public class AppAdaugaAngajati extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AppAdaugaAngajati(null).setVisible(true);
+                new AppAdaugaAngajati(null, new ArrayList<>()).setVisible(true);
             }
         });
     }
@@ -210,6 +238,7 @@ public class AppAdaugaAngajati extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -221,6 +250,5 @@ public class AppAdaugaAngajati extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
 }

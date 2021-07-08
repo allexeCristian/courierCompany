@@ -29,7 +29,7 @@ public class ParcAutoRepository {
         try {
             ResultSet rs = database.executeQuery("SELECT * FROM curier.parcauto;");
             while(rs.next()){
-                ParcAuto a = new ParcAuto(rs.getInt("idAuto"), rs.getString("marca"), rs.getString("model"));
+                ParcAuto a = new ParcAuto(rs.getInt("idAuto"), rs.getString("marca"), rs.getString("model"), rs.getString("nrInmatriculare"));
                 parcAuto.add(a);
             }
             return parcAuto;
@@ -41,7 +41,7 @@ public class ParcAutoRepository {
     }
     
     public void insertParcAuto (ParcAuto p) {
-        String query = "insert into curier.parcauto(marca, model) values (\""+p.marca+"\", \""+p.model+"\")";
+        String query = "insert into curier.parcauto(marca, model, nrInmatriculare) values (\""+p.marca+"\", \""+p.model+"\", \""+p.nrInmatriculare+"\")";
         database.execute(query);
     }
     

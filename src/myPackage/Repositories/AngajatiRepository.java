@@ -37,7 +37,9 @@ public class AngajatiRepository {
     }
     
     public void insertAngajat (Angajat a) {
-        String query = "insert into curier.angajati(nume, prenume, rol, adresa, nrContact, idAuto) values (\""+a.nume+"\", \""+a.prenume+"\", \""+a.rol+"\", \""+a.adresa+"\", \""+a.nrContact+"\", NULL)";
+        String idAuto = a.idAuto == 0 ? "NULL" : "\""+a.idAuto+"\"";
+        String query = "insert into curier.angajati(nume, prenume, rol, adresa, nrContact, idAuto) values (\""
+                +a.nume+"\", \""+a.prenume+"\", \""+a.rol+"\", \""+a.adresa+"\", \""+a.nrContact+"\", "+idAuto+")";
         database.execute(query);
     }
     
